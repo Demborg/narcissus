@@ -42,6 +42,12 @@ class VAEDecoder extends React.Component<DecoderProps, DecoderState>{
   async componentDidMount() {
     const model = await tf.loadLayersModel('https://raw.githubusercontent.com/Demborg/narcissus/master/public/decoder/model.json')
     this.state = {'latent': this.state.latent, 'model': model}
+
+    const tensor = (model.predict(tf.tensor2d([this.state.latent])) as tf.Tensor)
+    const arr = tensor.arraySync()
+
+    console.log(arr)
+    
   }
 
   render() {
