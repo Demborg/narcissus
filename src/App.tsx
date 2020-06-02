@@ -1,6 +1,5 @@
 import React from 'react';
 import * as tf from '@tensorflow/tfjs'
-import modelJSON from './decoder/model.json'
 import './App.css';
 
 interface DecoderProps {
@@ -41,7 +40,7 @@ class VAEDecoder extends React.Component<DecoderProps, DecoderState>{
   }
 
   async componentDidMount() {
-    const model = await tf.loadLayersModel('https://drive.google.com/file/d/1--BjrYN4fMRNbNq63XX1dphx5eIA7MaA')
+    const model = await tf.loadLayersModel('https://raw.githubusercontent.com/Demborg/narcissus/master/public/decoder/model.json')
     this.state = {'latent': this.state.latent, 'model': model}
   }
 
@@ -63,7 +62,6 @@ class VAEDecoder extends React.Component<DecoderProps, DecoderState>{
 }
 
 function App() {
-  const model = tf.loadLayersModel('./decoder/model.json')
   return (
     <div className="App">
       <header className="App-header">
