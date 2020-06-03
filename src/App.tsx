@@ -20,7 +20,7 @@ class LatentSlider extends React.Component<SliderProps, {}> {
   render () {
     return (
       <div>
-        <input type="range" className="Slider" min="-3" max="3" value={this.props.value} step="0.1" id="slider1"/>
+        <input type="range" className="Slider" min="-3" max="3" defaultValue={this.props.value} step="0.1" id="slider1"/>
         <br/>
       </div>
     )
