@@ -5,6 +5,10 @@
 .Latent-Canvas {
   height: 40vmin;
   pointer-events: none;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 .App-header {
