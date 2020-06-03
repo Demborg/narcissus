@@ -28,7 +28,7 @@ class LatentSlider extends React.Component<SliderProps, {}> {
          max="3"
          value={this.props.value}
          step="0.1" 
-         onChange={(e) => this.props.updater(parseInt(e.target.value, 10))}
+         onChange={(e) => this.props.updater(parseFloat(e.target.value))}
         />
         <br/>
       </div>
