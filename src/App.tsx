@@ -13,6 +13,7 @@ interface DecoderState {
 
 interface SliderProps {
   value: number;
+  updater(value: number): void;
 }
 
 
@@ -20,7 +21,15 @@ class LatentSlider extends React.Component<SliderProps, {}> {
   render () {
     return (
       <div>
-        <input type="range" className="Slider" min="-3" max="3" defaultValue={this.props.value} step="0.1" id="slider1"/>
+        <input
+         type="range" 
+         className="Slider"
+         min="-3"
+         max="3"
+         value={this.props.value}
+         step="0.1" 
+         onChange={(e) => this.props.updater(parseInt(e.target.value, 10))}
+        />
         <br/>
       </div>
     )
@@ -42,9 +51,7 @@ class VAEDecoder extends React.Component<DecoderProps, DecoderState>{
 
   async componentDidMount() {
     const model = await tf.loadLayersModel('https://raw.githubusercontent.com/Demborg/narcissus/master/public/decoder/model.json');
-    this.state = {'latent': this.state.latent, 'model': model};
-
-    this.drawLatent()
+    this.setState({'model': model});
   }
  
  async drawLatent() {
@@ -81,7 +88,14 @@ class VAEDecoder extends React.Component<DecoderProps, DecoderState>{
 
   }
 
+  updateLatent(index: number, value: number){
+    const latent = this.state.latent.slice();
+    latent[index] = value;
+    this.setState({'latent': latent})
+  }
+
   render() {
+    this.drawLatent()
     return (
       <div>
         <canvas
@@ -90,7 +104,8 @@ class VAEDecoder extends React.Component<DecoderProps, DecoderState>{
         />
         <div>explore the latent space</div>
         <div>
-          {this.state.latent.map(value => <LatentSlider value={value}/>)}
+          {this.state.latent.map(
+            (value, index) => <LatentSlider value={value} updater={(value: number)=>this.updateLatent(index, value)}/>)}
         </div>
       </div>
     )
