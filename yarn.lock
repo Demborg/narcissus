@@ -1457,7 +1457,7 @@
   resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-layers/-/tfjs-layers-2.0.0.tgz#cdd2aa013350d88091e2e840a298a272356cb4e3"
   integrity sha512-3jcXVDVbHvkDOSXbvtOgxB1WfRc1asNKOrnNrSfsQhB590DkCUH0QzKSInCe3GyoFhbUZhUwIDz0aFW+GdGgeQ==
 
-"@tensorflow/tfjs@^2.0.0":
+"@tensorflow/tfjs@2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@tensorflow/tfjs/-/tfjs-2.0.0.tgz#7c014dd91648ab8c95cdc4261b163402493b60f5"
   integrity sha512-+c3llrY54NgMBXJnhTkDS5t0us/zHynwuDQiVcMfjD9pBDa3fC7RLcpLrYl/cFGAdhH8XdjcjvqFjWze7S5IcQ==

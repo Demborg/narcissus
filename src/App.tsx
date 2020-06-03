@@ -3,7 +3,6 @@ import * as tf from '@tensorflow/tfjs'
 import './App.css';
 
 interface DecoderProps {
-  size: number;
   latent_dim: number;
 }
 
@@ -29,6 +28,8 @@ class LatentSlider extends React.Component<SliderProps, {}> {
 }
 
 class VAEDecoder extends React.Component<DecoderProps, DecoderState>{
+  private canvasRef = React.createRef<HTMLCanvasElement>();
+
   constructor(props: DecoderProps) {
     super(props);
     let latent: number[] = [];
@@ -40,23 +41,52 @@ class VAEDecoder extends React.Component<DecoderProps, DecoderState>{
   }
 
   async componentDidMount() {
-    const model = await tf.loadLayersModel('https://raw.githubusercontent.com/Demborg/narcissus/master/public/decoder/model.json')
-    this.state = {'latent': this.state.latent, 'model': model}
+    const model = await tf.loadLayersModel('https://raw.githubusercontent.com/Demborg/narcissus/master/public/decoder/model.json');
+    this.state = {'latent': this.state.latent, 'model': model};
 
-    const tensor = (model.predict(tf.tensor2d([this.state.latent])) as tf.Tensor)
-    const arr = tensor.arraySync()
+    this.drawLatent()
+  }
+ 
+ async drawLatent() {
+    const canvas = this.canvasRef.current;
+    if (this.state.model != null && canvas != null) {
+      const tensor = (this.state.model.predict(tf.tensor2d([this.state.latent])) as tf.Tensor4D);
+      const imgTensor = tensor.reshape([tensor.shape[1], tensor.shape[2], tensor.shape[3]]);
+      const [height, width] = imgTensor.shape.slice(0, 2);
 
-    console.log(arr)
-    
+      const data = await imgTensor.data();
+      const bytes = new Uint8ClampedArray(width * height * 4);
+
+      for (let i = 0; i < height * width; ++i) {
+        let r, g, b;
+        r = data[i * 3] * 255;
+        g = data[i * 3 + 1] * 255;
+        b = data[i * 3 + 2] * 255;
+
+        const j = i * 4
+        bytes[j + 0] = Math.round(r);
+        bytes[j + 1] = Math.round(g);
+        bytes[j + 2] = Math.round(b);
+        bytes[j + 3] = 255;
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      const imageData = new ImageData(bytes, width, height);
+      if(ctx != null) {
+        ctx.putImageData(imageData, 0, 0);
+      }
+    }
+
   }
 
   render() {
     return (
       <div>
         <canvas
-        ref="canvas"
-        width={this.props.size}
-        height={this.props.size}
+        ref={this.canvasRef}
+        className='Latent-Canvas'
         />
         <div>explore the latent space</div>
         <div>
@@ -74,7 +104,7 @@ function App() {
         <h2>
           This portrait doesn't exist (duh)
         </h2>
-        <VAEDecoder size={128} latent_dim={16}/>
+        <VAEDecoder latent_dim={16}/>
       </header>
     </div>
   );
