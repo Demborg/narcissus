@@ -21,3 +21,13 @@ A variational auto encoder was built and trained in [this](https://colab.researc
 
 ### Website
 A typescripted react webpage was built to sample from the latent space and display the corresponding image.
+
+## Setup
+install the requirements:
+`yarn install`
+
+run the app localy:
+`yarn start`
+
+deploy the app to github pages:
+`yarn deploy`
