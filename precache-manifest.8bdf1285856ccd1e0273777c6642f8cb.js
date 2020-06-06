@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "abfa7cd06c02298bc8373cbaa39a78a8",
+    "revision": "480c558ee49fb16bbbe6eb3023dfb24b",
     "url": "/narcissus/index.html"
   },
   {
-    "revision": "6ce453fba4e6fcf42b15",
+    "revision": "6f2fe3e325445b64810d",
     "url": "/narcissus/static/css/main.a2366e59.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/narcissus/static/js/2.6c54332b.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6ce453fba4e6fcf42b15",
-    "url": "/narcissus/static/js/main.a0399a85.chunk.js"
+    "revision": "6f2fe3e325445b64810d",
+    "url": "/narcissus/static/js/main.475cf918.chunk.js"
   },
   {
     "revision": "a9e264ffac43fc16df35",
