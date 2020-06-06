@@ -14,10 +14,10 @@ Okay maybe that's just me, none the less. Being a machine learning practitioner 
 ## Implementation
 
 ### Data
-I collected a dataset of almost 500 images of myself and annotated the location of my face in most of those images. This dataset is available here: 
+I collected a dataset of almost 500 images of myself and annotated the location of my face in most of those images. This dataset is available [here](https://drive.google.com/drive/folders/13IHMGCWfrn2av8UQvwRTO1firRpvS176?usp=sharing): 
 
 ### Model
-A variational auto encoder was built and trained in this google colab notebook and then the decoder was exported in the tensorflow.js format,
+A variational auto encoder was built and trained in [this](https://colab.research.google.com/drive/1K-yxulTVgIPdA8ambEZrOCKPZ_owTA4S?usp=sharing) google colab notebook and then the decoder was exported in the tensorflow.js format,
 
 ### Website
 A typescripted react webpage was built to sample from the latent space and display the corresponding image.
