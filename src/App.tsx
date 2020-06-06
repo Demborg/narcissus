@@ -1,5 +1,5 @@
 import React from 'react';
-import * as tf from '@tensorflow/tfjs'
+import {LayersModel, loadLayersModel, tensor2d, Tensor4D} from '@tensorflow/tfjs'
 import './App.css';
 
 interface DecoderProps {
@@ -8,7 +8,7 @@ interface DecoderProps {
 
 interface DecoderState {
   latent: number[];
-  model?: tf.LayersModel;
+  model?: LayersModel;
 }
 
 interface SliderProps {
@@ -50,14 +50,14 @@ class VAEDecoder extends React.Component<DecoderProps, DecoderState>{
   }
 
   async componentDidMount() {
-    const model = await tf.loadLayersModel('https://raw.githubusercontent.com/Demborg/narcissus/master/public/decoder/model.json');
+    const model = await loadLayersModel('https://raw.githubusercontent.com/Demborg/narcissus/master/public/decoder/model.json');
     this.setState({'model': model});
   }
  
  async drawLatent() {
     const canvas = this.canvasRef.current;
     if (this.state.model != null && canvas != null) {
-      const tensor = (this.state.model.predict(tf.tensor2d([this.state.latent])) as tf.Tensor4D);
+      const tensor = (this.state.model.predict(tensor2d([this.state.latent])) as Tensor4D);
       const imgTensor = tensor.reshape([tensor.shape[1], tensor.shape[2], tensor.shape[3]]);
       const [height, width] = imgTensor.shape.slice(0, 2);
 
