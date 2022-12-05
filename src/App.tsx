@@ -1,6 +1,11 @@
-import React from 'react';
-import {LayersModel, loadLayersModel, tensor2d, Tensor4D} from '@tensorflow/tfjs'
-import './App.css';
+import React from "react";
+import {
+  LayersModel,
+  loadLayersModel,
+  tensor2d,
+  Tensor4D,
+} from "@tensorflow/tfjs";
+import "./App.css";
 
 interface DecoderProps {
   latent_dim: number;
@@ -16,49 +21,54 @@ interface SliderProps {
   updater(value: number): void;
 }
 
+const LatentSlider = (props: SliderProps) => {
+  return (
+    <div>
+      <input
+        type="range"
+        className="Slider"
+        min="-3"
+        max="3"
+        value={props.value}
+        step="0.1"
+        onChange={(e) => props.updater(parseFloat(e.target.value))}
+      />
+      <br />
+    </div>
+  );
+};
 
-class LatentSlider extends React.Component<SliderProps, {}> {
-  render () {
-    return (
-      <div>
-        <input
-         type="range" 
-         className="Slider"
-         min="-3"
-         max="3"
-         value={this.props.value}
-         step="0.1" 
-         onChange={(e) => this.props.updater(parseFloat(e.target.value))}
-        />
-        <br/>
-      </div>
-    )
-  }
-}
-
-class VAEDecoder extends React.Component<DecoderProps, DecoderState>{
+class VAEDecoder extends React.Component<DecoderProps, DecoderState> {
   private canvasRef = React.createRef<HTMLCanvasElement>();
 
   constructor(props: DecoderProps) {
     super(props);
     let latent: number[] = [];
-    for (let i = 0; i < props.latent_dim; i++){
-      latent.push(6 * Math.random() - 3)
+    for (let i = 0; i < props.latent_dim; i++) {
+      latent.push(6 * Math.random() - 3);
     }
 
-    this.state = {'latent': latent}
+    this.state = { latent: latent };
   }
 
   async componentDidMount() {
-    const model = await loadLayersModel('https://raw.githubusercontent.com/Demborg/narcissus/master/public/decoder/model.json');
-    this.setState({'model': model});
+    const model = await loadLayersModel(
+      "https://raw.githubusercontent.com/Demborg/narcissus/master/public/decoder/model.json"
+    );
+    this.setState({ model: model });
   }
- 
- async drawLatent() {
+
+  async drawLatent() {
     const canvas = this.canvasRef.current;
     if (this.state.model != null && canvas != null) {
-      const tensor = (this.state.model.predict(tensor2d([this.state.latent])) as Tensor4D);
-      const imgTensor = tensor.reshape([tensor.shape[1], tensor.shape[2], tensor.shape[3]]);
+      const tensor = this.state.model.predict(
+        tensor2d([this.state.latent])
+      ) as Tensor4D;
+      const imgTensor = tensor.reshape([
+        tensor.shape[1],
+        tensor.shape[2],
+        tensor.shape[3],
+      ]);
       const [height, width] = imgTensor.shape.slice(0, 2);
 
       const data = await imgTensor.data();
@@ -70,7 +80,7 @@ class VAEDecoder extends React.Component<DecoderProps, DecoderState>{
         g = data[i * 3 + 1] * 255;
         b = data[i * 3 + 2] * 255;
 
-        const j = i * 4
+        const j = i * 4;
         bytes[j + 0] = Math.round(r);
         bytes[j + 1] = Math.round(g);
         bytes[j + 2] = Math.round(b);
@@ -79,50 +89,48 @@ class VAEDecoder extends React.Component<DecoderProps, DecoderState>{
 
       canvas.width = width;
       canvas.height = height;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       const imageData = new ImageData(bytes, width, height);
-      if(ctx != null) {
+      if (ctx != null) {
         ctx.putImageData(imageData, 0, 0);
       }
     }
-
   }
 
-  updateLatent(index: number, value: number){
+  updateLatent(index: number, value: number) {
     const latent = this.state.latent.slice();
     latent[index] = value;
-    this.setState({'latent': latent})
+    this.setState({ latent: latent });
   }
 
   render() {
-    this.drawLatent()
+    this.drawLatent();
     return (
       <div>
-        <canvas
-        ref={this.canvasRef}
-        className='Latent-Canvas'
-        />
+        <canvas ref={this.canvasRef} className="Latent-Canvas" />
         <div>explore the latent space</div>
         <div>
-          {this.state.latent.map(
-            (value, index) => <LatentSlider value={value} updater={(value: number)=>this.updateLatent(index, value)}/>)}
+          {this.state.latent.map((value, index) => (
+            <LatentSlider
+              value={value}
+              updater={(value: number) => this.updateLatent(index, value)}
+            />
+          ))}
         </div>
       </div>
-    )
+    );
   }
 }
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h2>
-          This portrait doesn't exist (duh)
-        </h2>
-        <VAEDecoder latent_dim={16}/>
+        <h2>This portrait doesn't exist (duh)</h2>
+        <VAEDecoder latent_dim={16} />
       </header>
     </div>
   );
-}
+};
 
 export default App;
