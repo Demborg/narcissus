@@ -87,7 +87,9 @@ const drawLatent = async (
 const VAECanvas = (props: { latent: number[] }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [model, setModel] = useState<LayersModel>();
+  const [offset, setOffset] = useState<[number, number]>([0, 0]);
   const latent = props.latent;
+  console.log(latent);
 
   useEffect(() => {
     loadLayersModel(
@@ -95,11 +97,29 @@ const VAECanvas = (props: { latent: number[] }) => {
     ).then((model) => setModel(model));
   }, []);
 
+  const onMouseMove = useCallback((e) => {
+    const targetRect = e.currentTarget.getBoundingClientRect();
+    setOffset([
+      e.nativeEvent.offsetX / targetRect.width,
+      e.nativeEvent.offsetY / targetRect.height,
+    ]);
+  }, []);
+
   if (model && canvasRef.current) {
-    drawLatent(canvasRef.current, model, latent);
+    drawLatent(
+      canvasRef.current,
+      model,
+      latent.map((v, i) => (i < 2 ? v + 2 * offset[i] : v))
+    );
   }
 
-  return <canvas ref={canvasRef} className="Latent-Canvas" />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className="Latent-Canvas"
+      onMouseMove={onMouseMove}
+    />
+  );
 };
 
 const VAEDecoder = (props: DecoderProps) => {
@@ -133,7 +153,11 @@ const App = () => {
   if (params.get("fullscreen")) {
     return (
       <div className="Fullscreen">
-        <VAECanvas latent={Array(16).fill(0)} />
+        <VAECanvas
+          latent={Array(16)
+            .fill(0)
+            .map(() => 3 - 6 * Math.random())}
+        />
       </div>
     );
   }
