@@ -1,22 +1,13 @@
 {
   "files": {
-    "main.css": "/narcissus/static/css/main.a2366e59.chunk.css",
-    "main.js": "/narcissus/static/js/main.baf797fd.chunk.js",
-    "main.js.map": "/narcissus/static/js/main.baf797fd.chunk.js.map",
-    "runtime-main.js": "/narcissus/static/js/runtime-main.7ff996b7.js",
-    "runtime-main.js.map": "/narcissus/static/js/runtime-main.7ff996b7.js.map",
-    "static/js/2.cbf3513a.chunk.js": "/narcissus/static/js/2.cbf3513a.chunk.js",
-    "static/js/2.cbf3513a.chunk.js.map": "/narcissus/static/js/2.cbf3513a.chunk.js.map",
+    "main.css": "/narcissus/static/css/main.82cca931.css",
+    "main.js": "/narcissus/static/js/main.9aa4b0ee.js",
     "index.html": "/narcissus/index.html",
-    "precache-manifest.ddfe43162a67c6f7d22adcb4e2ed72d6.js": "/narcissus/precache-manifest.ddfe43162a67c6f7d22adcb4e2ed72d6.js",
-    "service-worker.js": "/narcissus/service-worker.js",
-    "static/css/main.a2366e59.chunk.css.map": "/narcissus/static/css/main.a2366e59.chunk.css.map",
-    "static/js/2.cbf3513a.chunk.js.LICENSE.txt": "/narcissus/static/js/2.cbf3513a.chunk.js.LICENSE.txt"
+    "main.82cca931.css.map": "/narcissus/static/css/main.82cca931.css.map",
+    "main.9aa4b0ee.js.map": "/narcissus/static/js/main.9aa4b0ee.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.7ff996b7.js",
-    "static/js/2.cbf3513a.chunk.js",
-    "static/css/main.a2366e59.chunk.css",
-    "static/js/main.baf797fd.chunk.js"
+    "static/css/main.82cca931.css",
+    "static/js/main.9aa4b0ee.js"
   ]
 }
